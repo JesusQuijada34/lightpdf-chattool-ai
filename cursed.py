@@ -1,3 +1,5 @@
+import os
+
 archivo = "archivo.word"
 if not os.path.exists(archivo):
     print(f"\033[31m🚫 El archivo no existe: {archivo}\033[0m")

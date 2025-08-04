@@ -14,24 +14,27 @@ os.makedirs(DOWNLOAD_DIR, exist_ok=True)
 
 # 💠 Función para crear PDF desde texto
 def create_pdf(text, filename="presentacion.pdf"):
-    headers = {
-        "Content-Type": "application/json",
-        "Authorization": f"Bearer {API_KEY}"
-    }
-    data = {
-        "title": "Presentación Académica",
-        "content": text
-    }
-    response = requests.post(API_URL, headers=headers, json=data)
-    if response.ok and "file_url" in response.json():
-        url = response.json()["file_url"]
-        file_path = os.path.join(DOWNLOAD_DIR, filename)
-        r = requests.get(url)
-        with open(file_path, "wb") as f:
-            f.write(r.content)
-        return file_path
-    else:
-        return None
+    try:
+        headers = {
+            "Content-Type": "application/json",
+            "Authorization": f"Bearer {API_KEY}"
+        }
+        data = {
+            "title": "Presentación Académica",
+            "content": text
+        }
+        response = requests.post(API_URL, headers=headers, json=data)
+        if response.ok and "file_url" in response.json():
+            url = response.json()["file_url"]
+            file_path = os.path.join(DOWNLOAD_DIR, filename)
+            r = requests.get(url)
+            with open(file_path, "wb") as f:
+                f.write(r.content)
+            return file_path
+        else:
+            return None
+    except Exception as e:
+        print(f"Hubo un error, detalles del error: {e}")
 
 # 💠 GUI con customtkinter
 def launch_gui():
